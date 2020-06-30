@@ -1,0 +1,25 @@
+
+public class product {
+	private int pid;
+	private String pname;
+	private int prize;
+	public int getProductId() {
+		return pid;
+	}
+	public void setProductId(int pid) {
+		this.pid = pid;
+	}
+	public String getProductName() {
+		return pname;
+	}
+	public void setProductName(String pname) {
+		this.pname = pname;
+	}
+	public int getPrize() {
+		return prize;
+	}
+	public void setPrize(int prize) {
+		this.prize = prize;
+	}
+
+}

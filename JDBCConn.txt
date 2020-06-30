@@ -1,0 +1,38 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCConn {
+  //static reference to itself
+  private static JDBCConn instance = new JDBCConn();
+  public static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";   
+  public static final String USER = "system";//"root" ;
+  public static final String PASSWORD = "system" ; //"mysql"; 
+  public static final String DRIVER_CLASS = "oracle.jdbc.driver.OracleDriver";    
+   
+   private JDBCConn() {
+      try {
+          //Load MySQL Java driver
+          Class.forName(DRIVER_CLASS);
+      } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+      }
+  }
+   
+  private Connection createConnection() {
+
+      Connection connection = null;
+      try {
+          //Establish Java MySQL connection
+          connection = DriverManager.getConnection(URL, USER, PASSWORD);
+      } catch (SQLException e) {
+    	  e.printStackTrace();
+          System.out.println("ERROR: Unable to Connect to Database.");
+      }
+      return connection;
+  }   
+   
+  public static Connection getConnection() {
+      return instance.createConnection();
+  }
+}

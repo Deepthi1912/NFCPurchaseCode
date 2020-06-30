@@ -1,0 +1,76 @@
+
+
+public class JDBCCalls {
+    public static void main(String[] args) {
+    	int result=0;
+    	int custid=0;
+    	int pid=0;
+    	int quant=0;
+        DAOClass dao = new DAOClass();
+    	if(args.length1)
+    	{
+    		System.out.println(Enter an operation to perform in commandline!!!);
+    	}
+    	
+    	else
+    	{
+    		int choice = Integer.parseInt(args[0]);
+    		switch(choice)
+    		{
+    		case 1
+    			
+    			  System.out.println(Insert Operation);
+    	       
+    			  custid= Integer.parseInt(args[1]);
+    			  String custname=args[2];
+    			  int phno=Integer.parseInt(args[3]);
+    			  
+    			  int wallet=Integer.parseInt(args[4]);
+    			
+    			  Student student = new Student();
+    			  student.setStudentId(custid);
+    			  student.setStudentName(custname);
+    			  student.setStudentSemester(phno);
+    			  student.setStudentFee(wallet);
+    	          result= dao.insert(student);
+    			  if(result==1)
+    				  System.out.println(Insertion done successfully);
+    	     	  else
+    				  System.out.println(Insertion failed);
+    			  break;
+
+    		case 2
+    			 System.out.println(Display product detail Operation);
+   			  if(args.length==2)
+   			  {	  
+   			  pid=Integer.parseInt(args[1]);
+   	          dao.displayp(pid);
+   			  }
+   			  break;
+    			  
+    		case 3
+    			
+    			 System.out.println(product purchase operation);
+    			 custid=Integer.parseInt(args[1]);
+    			 pid=Integer.parseInt(args[2]);
+    			 quant=Integer.parseInt(args[3]);
+    	          result= dao.modify(custid,pid,quant);
+    	          if(result==1)
+    				  System.out.println(Purchase successfull);
+    			  else
+    				  System.out.println(Purchase failed);
+    			  break;
+    			
+    		case 4
+    			  System.out.println(Display Operation);
+    			  if(args.length==2)
+    			  {	  
+    			  custid=Integer.parseInt(args[1]);
+    	          dao.display(custid);
+    			  }
+    			  break;
+    		
+    		}
+    	}
+                      } 
+                  }  

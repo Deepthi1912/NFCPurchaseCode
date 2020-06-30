@@ -1,0 +1,147 @@
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+public class DAOClass {
+int  insert(Student student){
+try
+{		Connection conn = JDBCConn.getConnection();
+		String addquery = "insert into CUSTOMER_DET(custid int,custname varchar(50),phno int,wallet int) values(?,?,?,?)";
+		PreparedStatement pst = conn.prepareStatement(addquery);
+		pst.setInt(1, student.getStudentId());
+		pst.setString(2, student.getStudentName());
+		pst.setInt(3, student.getStudentSemester());
+	    pst.setInt(4, student.getStudentFee());
+		int result=pst.executeUpdate();
+		conn.close();	
+		return result; 		}
+		catch(Exception e)
+ 			{	e.printStackTrace();
+				return 0;
+			}		
+		}	
+
+	
+int modify(int custid,int pid,int quant)
+{   
+	ResultSet rs = null;
+    Connection connection = null;
+    Statement statement = null; 
+    Student student = null;
+    String query = "SELECT * FROM CUSTOMER_DET WHERE custid=" + custid;
+    ResultSet rs1 = null;
+   
+    Statement statement1 = null; 
+    product prod = null;
+    String query1 = "SELECT * FROM PRODUCT_DET WHERE pid=" + pid;
+	try
+	{ 
+	Connection conn = JDBCConn.getConnection();
+	if(connection!=null)
+    {   statement = connection.createStatement();
+        rs = statement.executeQuery(query);
+                 if (rs.next()) {
+        student = new Student();
+        student.setStudentId(rs.getInt("custid"));
+        student.setStudentName(rs.getString(2));
+        student.setStudentSemester(rs.getInt("phno"));
+        
+        student.setStudentFee(rs.getInt(4));
+        }
+        statement1 = connection.createStatement();
+          rs1 = statement1.executeQuery(query1);
+                   if (rs1.next()) {
+          prod = new product();
+          prod.setProductId(rs.getInt("pid"));
+          prod.setProductName(rs.getString(2));
+          prod.setPrize(rs.getInt("prize"));
+          }  
+      if(student.getStudentFee()>=(prod.getProductId()*quant))
+      {
+    
+     	String updatequery = "update CUSTOMER_DET Set wallet="+student.getStudentFee()-(prod.getProductId()*quant)+"where custid="+ custid;
+	    PreparedStatement pst = conn.prepareStatement(updatequery);
+	    int result=pst.executeUpdate();
+	    System.out.println("product purchased="+(prod.getProductName()));
+	    System.out.println("Quantity="+quant);
+	    System.out.println("TotalCost="+(prod.getProductId()*quant));
+	    System.out.println("Wallet Balance="+student.getStudentFee()-(prod.getProductId()*quant));
+	    conn.close();	
+	    return result;
+      }
+      else
+      {
+    	System.out.println("INSUFFICIENT AMOUNT IN THE WALLET!!!!!!!!!!") ;
+    	return 0;
+      }
+    }
+	}
+	catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+    void display(int custid)
+    {       ResultSet rs = null;
+	        Connection connection = null;
+	        Statement statement = null; 
+	        Student student = null;
+	        String query = "SELECT * FROM CUSTOMER_DET WHERE custid=" + custid;
+	        try {           
+	            connection = JDBCConn.getConnection();
+	            if(connection!=null)
+	            {   statement = connection.createStatement();
+                    rs = statement.executeQuery(query);
+                             if (rs.next()) {
+	                student = new Student();
+	                student.setStudentId(rs.getInt("custid"));
+	                student.setStudentName(rs.getString(2));
+	                student.setStudentSemester(rs.getInt("phno"));
+	                
+	                student.setStudentFee(rs.getInt(4));
+	                }  
+	            }
+	            System.out.println("Customer details with customerID : " + custid);
+	            System.out.println("custid.  CustomerName \t Phoneno. \t WAllet");
+	            System.out.println(student.getStudentId()+"\t"+ student.getStudentName()+"\t"+ student.getStudentSemester()+"\t"+ student.getStudentFee());
+	            connection.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            }
+	  }
+        
+    void displayp(int pid)
+    {       ResultSet rs = null;
+	        Connection connection = null;
+	        Statement statement = null; 
+	        product prod = null;
+	        String query = "SELECT * FROM PRODUCT_DET WHERE custid=" + pid;
+	        try {           
+	            connection = JDBCConn.getConnection();
+	            if(connection!=null)
+	            {   statement = connection.createStatement();
+                    rs = statement.executeQuery(query);
+                             if (rs.next()) {
+                            	 prod = new product();
+                                 prod.setProductId(rs.getInt("pid"));
+                                 prod.setProductName(rs.getString(2));
+                                 prod.setPrize(rs.getInt("prize"));
+	                }  
+	            }
+	            System.out.println("Product details with productID : " + pid);
+	            System.out.println("productId.  productName \t Prize");
+	            System.out.println(prod.getProductId()+"\t"+ prod.getProductName()+"\t"+ prod.getPrize());
+	            connection.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+}
+    }
+}
+ 
+
+

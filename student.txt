@@ -1,0 +1,36 @@
+
+public class Student {
+	
+	private int custid;
+	private String custname;
+	private int phno;
+	
+	private int wallet;
+     
+    public int getStudentId() {
+		return custid;
+	}
+	public void setStudentId(int custid) {
+		this.custid = custid;
+	}
+	public String getStudentName() {
+		return custname;
+	}
+	public void setStudentName(String custname) {
+		this.custname = custname;
+	}
+	public int getStudentSemester() {
+		return phno;
+	}
+	public void setStudentSemester(int phno) {
+		this.phno = phno;
+	}
+	
+	public int getStudentFee() {
+		return wallet;
+	}
+	public void setStudentFee(int wallet) {
+		this.wallet = wallet;
+	}
+        
+}
